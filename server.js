@@ -13,16 +13,24 @@ var options = {
 
 }
 
+
 tls.createServer(options, function(socket){
   console.log('TLS connection established')
   socket.addListener('data',function(data){
       console.log(data)
   })
-  socket.pipe(socket)  
+  socket.write('Listening On Port 2000')
+  socket.pipe(socket)
 }).listen(2000)
 
+
+
+app.get('/', function(req, res){
+  res.sendfile('index.html');
+});
+
 io.on('connection',function(socket){
-  console.log('a user conected') 
+  console.log('a user conected')
 })
 
 http.listen(port,function(){
