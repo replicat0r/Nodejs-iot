@@ -21,6 +21,17 @@ tls.createServer(options, function(s) {
     s.addListener('data', function(data) {
         incomingData = data
         console.log('Data Received Ok!')
+        console.log(incomingData)
+
+
+        s.write('Ok')
+
+        var timerId = setInterval(function() {
+            s.write(data)
+        }, 3000);
+
+
+
     })
 
     console.log("TLS Client authorized:", s.authorized);
@@ -34,9 +45,22 @@ tls.createServer(options, function(s) {
     console.log("Remote port: ", s.remotePort);
 
     var fragment = '';
-  
-    s.write('Ok')
 
+
+
+    s.on("error", function(err) {
+        console.log("Error:", err.toString());
+    });
+
+    s.on("end", function() {
+        clearInterval(timerId);
+        console.log("End: Connection Terminated");
+    });
+
+    s.on("close", function() {
+clearInterval(timerId);
+        console.log("Close Connection Closed:");
+    });
 
     //   socket.write('Listening On Port ' + TLS_PORT)
     //   socket.write('You are listening on port '+ TLS_PORT + " Tom!")
