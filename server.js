@@ -3,8 +3,8 @@ var fs = require ('fs')
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 5000
-var TLS_PORT = process.env.PORT || 2000
+var port = 5000
+var TLS_PORT = 2000
 
 
 
@@ -34,6 +34,6 @@ io.on('connection',function(socket){
   console.log('a user conected')
 })
 
-// http.listen(port,function(){
-//     console.log('listening on' + port)
-// })
+http.listen(port,function(){
+    console.log('listening on' + port)
+})
