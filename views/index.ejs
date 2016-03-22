@@ -8,19 +8,30 @@
     crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
     <style>
-        
+
     </style>
-  </head>
-  <body>
-      <div>
-           <h4> Current Status</h4>
-           <input name="brightness" type="text"></input>
-           <button
-           
-          </div>
-  </body>
+</head>
+
+<body>
+    <div>
+
+        <h3> Current Status </h3>
+
+    <form action="">
+
+        <input name="brightness" id="brightness" type="text" value="<%=val%>"></input>
+        <input type="submit" value="Submit">
+            </form>
+
+    </div>
+</body>
 <script>
     var socket = io();
+
+ $('form').submit(function(){
+    socket.emit('updateBright', $('#brightness').val());
+    return false;
+  });
 
 </script>
 

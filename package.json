@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.4.1",
     "express": "^4.13.4",
     "mongoose": "^4.4.8",
     "npm": "^3.8.2",

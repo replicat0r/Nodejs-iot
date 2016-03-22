@@ -13,6 +13,9 @@ var settingSchema = mongoose.Schema({
     brightness: String
 })
 var Settings = mongoose.model('Setting', settingSchema)
+var ejs = require('ejs');
+var brightnessVal
+
 
 
 
@@ -25,7 +28,7 @@ var options = {
 tls.createServer(options, function(s) {
     console.log('TLS connection established ')
     s.addListener('data', function(data) {
-        var timerId,composedData,key
+        var timerId, composedData, key
         incomingData = data
         clearInterval(timerId);
 
@@ -40,6 +43,7 @@ tls.createServer(options, function(s) {
         //     }
         // }
         console.log("composed Data:" + parsedData)
+
         var newSetting = new Settings({ brightness: parsedData.brightness })
         console.log(`newsetting data: ${newSetting.brightness}`)
 
@@ -99,13 +103,31 @@ tls.createServer(options, function(s) {
 }).listen(TLS_PORT)
 
 
-
+app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
-    res.sendfile('index.html');
+    Settings.findOne({}, function(err, result) {
+        if (err) {
+            console.log(err)
+        }
+        brightnessVal = result.brightness
+        console.log(`brightness is ${brightnessVal}`)
+        res.render('index', { val: brightnessVal });
+
+    })
+
 });
 
 io.on('connection', function(socket) {
-    console.log('a user conected')
+    socket.on('updateBright', function(updatedValue) {
+        console.log('new updated value is: ' + updatedValue);
+        
+        Settings.update({ }, {
+            brightness: updatedValue
+       
+        }, function(err, numberAffected, rawResponse) {
+            //handle it
+        })
+    });
 
 })
 
