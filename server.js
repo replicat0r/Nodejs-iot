@@ -3,15 +3,10 @@ var fs = require ('fs')
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var port = process.env.PORT || 5000
 
-var  msg = [
-            ".-..-..-.  .-.   .-. .--. .---. .-.   .---. .-.",
-            ": :; :: :  : :.-.: :: ,. :: .; :: :   : .  :: :",
-            ":    :: :  : :: :: :: :: ::   .': :   : :: :: :",
-            ": :: :: :  : `' `' ;: :; :: :.`.: :__ : :; ::_;",
-            ":_;:_;:_;   `.,`.,' `.__.':_;:_;:___.':___.':_;" 
-          ].join("\n")
-          
+
+
 var options = {
     key: fs.readFileSync('server.key'),
     cert: fs.readFileSync('cert.pem'),
@@ -20,17 +15,16 @@ var options = {
 
 tls.createServer(options, function(socket){
   console.log('TLS connection established')
-  //socket.write(msg)
   socket.addListener('data',function(data){
       console.log(data)
   })
   socket.pipe(socket)  
-}).listen(443)
+}).listen(2000)
 
 io.on('connection',function(socket){
   console.log('a user conected') 
 })
 
-http.listen(80,function(){
+http.listen(port,function(){
     console.log('listening on 3000')
 })
