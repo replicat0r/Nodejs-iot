@@ -32,7 +32,7 @@ tls.createServer(options, function(s) {
         console.log('=== received ok==')
         //var parsedData = JSON.parse(data)
         console.log("Parsed Data:" + data)
-        var newSetting = new Setting({brightness: data.brightness})
+        var newSetting = new Settings({brightness: data.brightness})
         console.log(`newsetting data: ${newSetting.brightness}`)
         newSetting.save(function(err){
             if (err){
