@@ -35,7 +35,7 @@ tls.createServer(options, function(s) {
 
     var fragment = '';
   
-    socket.write('Ok')
+    s.write('Ok')
 
 
     //   socket.write('Listening On Port ' + TLS_PORT)
