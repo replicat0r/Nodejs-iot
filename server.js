@@ -21,6 +21,7 @@ tls.createServer(options, function(socket){
       console.log(data)
   })
   socket.write('Listening On Port ' + TLS_PORT)
+  socket.write('You are listening on port '+ TLS_PORT + " Tom!")
   socket.pipe(socket)
 }).listen(TLS_PORT)
 
