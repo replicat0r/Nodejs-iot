@@ -44,16 +44,36 @@ tls.createServer(options, function(s) {
         // }
         console.log("composed Data:" + parsedData)
 
-        var newSetting = new Settings({ brightness: parsedData.brightness })
-        console.log(`newsetting data: ${newSetting.brightness}`)
-
-        newSetting.save(function(err) {
+        Settings.findOne({}, function(err, result) {
             if (err) {
                 console.log(err)
-            } else {
-                console.log('data saved')
             }
+            if (!result) {
+                var newSetting = new Settings({ brightness: parsedData.brightness })
+                newSetting.save(function(err) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log('data saved')
+                    }
+                })
+
+            } else {
+                Settings.update({}, {
+                    brightness: parsedData.brightness
+
+                }, function(err) {
+                    //handle it
+                })
+
+            }
+
+
         })
+
+        console.log(`newsetting data: ${newSetting.brightness}`)
+
+
 
         s.write('Ok')
 
@@ -94,9 +114,7 @@ tls.createServer(options, function(s) {
         console.log("Close Connection Closed:");
     });
 
-    //   socket.write('Listening On Port ' + TLS_PORT)
-    //   socket.write('You are listening on port '+ TLS_PORT + " Tom!")
-    //socket.pipe(socket)
+
 
 
 
@@ -120,11 +138,11 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
     socket.on('updateBright', function(updatedValue) {
         console.log('new updated value is: ' + updatedValue);
-        
-        Settings.update({ }, {
+
+        Settings.update({}, {
             brightness: updatedValue
-       
-        }, function(err, numberAffected, rawResponse) {
+
+        }, function(err) {
             //handle it
         })
     });
