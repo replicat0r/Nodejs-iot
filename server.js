@@ -6,7 +6,11 @@ var io = require('socket.io')(http);
 var port = 5000
 var TLS_PORT = 2000
 var incomingData
+var mongoose = require('mongoose');
+var url = 'mongodb://test:test@ds021689.mlab.com:21689/simple_iot'
+mongoose.connect(url)
 
+var Settings = mongoose.model('Setting',{brightness: String})
 
 
 var options = {
@@ -15,20 +19,31 @@ var options = {
 
 }
 
-
 tls.createServer(options, function(s) {
     console.log('TLS connection established ')
     s.addListener('data', function(data) {
         incomingData = data
-        console.log('Data Received Ok!')
-        console.log(incomingData)
+        clearInterval(timerId);
 
+        console.log('Data Received Ok!')
+        var parsedData = JSON.parse(data)
+        console.log(parsedData)
+        var newSetting = new Setting({brightness: parsedData.brightness})
+        newSetting.save(function(err){
+            if (err){
+                console.log(err)
+            }else{
+                console.log('data saved')
+            }
+        })
 
         s.write('Ok')
 
         var timerId = setInterval(function() {
             s.write(data)
         }, 3000);
+        
+        
 
 
 
@@ -58,7 +73,7 @@ tls.createServer(options, function(s) {
     });
 
     s.on("close", function() {
-clearInterval(timerId);
+        clearInterval(timerId);
         console.log("Close Connection Closed:");
     });
 
