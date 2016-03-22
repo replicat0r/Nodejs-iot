@@ -55,6 +55,8 @@ tls.createServer(options, function(s) {
                         console.log(err)
                     } else {
                         console.log('data saved')
+                        console.log(`newsetting data: ${newSetting.brightness}`)
+
                     }
                 })
 
@@ -71,7 +73,6 @@ tls.createServer(options, function(s) {
 
         })
 
-        console.log(`newsetting data: ${newSetting.brightness}`)
 
 
 
