@@ -29,10 +29,10 @@ tls.createServer(options, function(s) {
         incomingData = data
         clearInterval(timerId);
 
-        console.log('Data Received Ok!')
-        var parsedData = JSON.parse(data)
-        console.log("Parsed Data:" + parsedData)
-        var newSetting = new Setting({brightness: parsedData.brightness})
+        console.log('=== received ok==')
+        //var parsedData = JSON.parse(data)
+        console.log("Parsed Data:" + data)
+        var newSetting = new Setting({brightness: data.brightness})
         console.log(`newsetting data: ${newSetting.brightness}`)
         newSetting.save(function(err){
             if (err){
@@ -64,7 +64,6 @@ tls.createServer(options, function(s) {
     console.log("Remote address: ", s.remoteAddress);
     console.log("Remote port: ", s.remotePort);
 
-    var fragment = '';
 
 
 
