@@ -25,19 +25,27 @@ var options = {
 tls.createServer(options, function(s) {
     console.log('TLS connection established ')
     s.addListener('data', function(data) {
-        var timerId
+        var timerId,composedData
         incomingData = data
         clearInterval(timerId);
 
         console.log('=== received ok==')
         //var parsedData = JSON.parse(data)
-        console.log("Parsed Data:" + data)
-        var newSetting = new Settings({brightness: data.brightness})
+
+
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                composedData = '{"' + key + '"' + ":" + data[key] + "}";
+            }
+        }
+        console.log("composed Data:" + composedData)
+        var newSetting = new Settings({ brightness: composedData.brightness })
         console.log(`newsetting data: ${newSetting.brightness}`)
-        newSetting.save(function(err){
-            if (err){
+
+        newSetting.save(function(err) {
+            if (err) {
                 console.log(err)
-            }else{
+            } else {
                 console.log('data saved')
             }
         })
@@ -47,8 +55,8 @@ tls.createServer(options, function(s) {
         timerId = setInterval(function() {
             s.write(data)
         }, 3000);
-        
-        
+
+
 
 
 
@@ -97,7 +105,7 @@ app.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     console.log('a user conected')
-    
+
 })
 
 http.listen(port, function() {
