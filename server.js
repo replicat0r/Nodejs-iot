@@ -22,13 +22,14 @@ var options = {
 tls.createServer(options, function(s) {
     console.log('TLS connection established ')
     s.addListener('data', function(data) {
+        var timerId
         incomingData = data
         clearInterval(timerId);
 
         console.log('Data Received Ok!')
         var parsedData = JSON.parse(data)
         console.log(parsedData)
-        var newSetting = new Setting({brightness: parsedData.brightness})
+       // var newSetting = new Setting({brightness: parsedData.brightness})
         newSetting.save(function(err){
             if (err){
                 console.log(err)
@@ -39,7 +40,7 @@ tls.createServer(options, function(s) {
 
         s.write('Ok')
 
-        var timerId = setInterval(function() {
+        timerId = setInterval(function() {
             s.write(data)
         }, 3000);
         
@@ -83,7 +84,6 @@ tls.createServer(options, function(s) {
 
 
 
-
 }).listen(TLS_PORT)
 
 
@@ -94,6 +94,7 @@ app.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     console.log('a user conected')
+    
 })
 
 http.listen(port, function() {
