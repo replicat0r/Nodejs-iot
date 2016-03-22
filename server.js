@@ -16,9 +16,6 @@ var Settings = mongoose.model('Setting', settingSchema)
 var ejs = require('ejs');
 var brightnessVal
 
-
-
-
 var options = {
     key: fs.readFileSync('server.key'),
     cert: fs.readFileSync('cert.pem'),
@@ -36,12 +33,6 @@ tls.createServer(options, function(s) {
         var parsedData = JSON.parse(data)
 
         console.log(data)
-        // for (key in data) {
-        //     if (data.hasOwnProperty(key)) {
-        //         console.log(`key is ${key} , data is ${data[key]}`)
-        //         composedData = '{"' + key + '"' + ":" + data[key] + "}";
-        //     }
-        // }
         console.log("composed Data:" + parsedData)
 
         Settings.findOne({}, function(err, result) {
@@ -56,7 +47,6 @@ tls.createServer(options, function(s) {
                     } else {
                         console.log('data saved')
                         console.log(`newsetting data: ${newSetting.brightness}`)
-
                     }
                 })
 
@@ -67,24 +57,14 @@ tls.createServer(options, function(s) {
                 }, function(err) {
                     //handle it
                 })
-
             }
 
-
         })
-
-
-
-
         s.write('Ok')
 
         timerId = setInterval(function() {
             s.write(data)
         }, 3000);
-
-
-
-
 
     })
 
@@ -97,8 +77,6 @@ tls.createServer(options, function(s) {
     console.log("Address: ", s.address());
     console.log("Remote address: ", s.remoteAddress);
     console.log("Remote port: ", s.remotePort);
-
-
 
 
     s.on("error", function(err) {
@@ -114,10 +92,6 @@ tls.createServer(options, function(s) {
         clearInterval(timerId);
         console.log("Close Connection Closed:");
     });
-
-
-
-
 
 }).listen(TLS_PORT)
 
