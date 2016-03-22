@@ -25,12 +25,12 @@ tls.createServer(options, function(socket){
       console.log(data)
   })
   socket.pipe(socket)  
-}).listen(8000)
+}).listen(443)
 
 io.on('connection',function(socket){
   console.log('a user conected') 
 })
 
-http.listen(3000,function(){
+http.listen(80,function(){
     console.log('listening on 3000')
 })
