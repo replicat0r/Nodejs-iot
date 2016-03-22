@@ -34,6 +34,6 @@ io.on('connection',function(socket){
   console.log('a user conected')
 })
 
-http.listen(port,function(){
-    console.log('listening on' + port)
-})
+// http.listen(port,function(){
+//     console.log('listening on' + port)
+// })
