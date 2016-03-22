@@ -16,11 +16,11 @@ var options = {
 
 
 tls.createServer(options, function(socket){
-  console.log('TLS connection established')
+  console.log('TLS connection established tyler')
   socket.addListener('data',function(data){
       console.log(data)
   })
-  socket.write('Listening On Port 2000')
+  socket.write('Listening On Port ' + TLS_PORT)
   socket.pipe(socket)
 }).listen(TLS_PORT)
 
