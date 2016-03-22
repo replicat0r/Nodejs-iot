@@ -5,6 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = 5000
 var TLS_PORT = 2000
+var incomingData 
 
 
 
@@ -16,13 +17,19 @@ var options = {
 
 
 tls.createServer(options, function(socket){
-  console.log('TLS connection established tyler')
+  console.log('TLS connection established ')
   socket.addListener('data',function(data){
-      console.log(data)
+      //console.log(data)
+      incomingData = data
+      console.log('Data Received Ok!')
   })
   socket.write('Listening On Port ' + TLS_PORT)
   socket.write('You are listening on port '+ TLS_PORT + " Tom!")
-  socket.pipe(socket)
+  //socket.pipe(socket)
+  
+  
+  
+  
 }).listen(TLS_PORT)
 
 
