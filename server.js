@@ -9,8 +9,11 @@ var incomingData
 var mongoose = require('mongoose');
 var url = 'mongodb://test:test@ds021689.mlab.com:21689/simple_iot'
 mongoose.connect(url)
+var settingSchema = mongoose.Schema({
+    brightness: String
+})
+var Settings = mongoose.model('Setting', settingSchema)
 
-var Settings = mongoose.model('Setting',{brightness: String})
 
 
 var options = {
@@ -28,8 +31,9 @@ tls.createServer(options, function(s) {
 
         console.log('Data Received Ok!')
         var parsedData = JSON.parse(data)
-        console.log(parsedData)
-       // var newSetting = new Setting({brightness: parsedData.brightness})
+        console.log("Parsed Data:" + parsedData)
+        var newSetting = new Setting({brightness: parsedData.brightness})
+        console.log(`newsetting data: ${newSetting.brightness}`)
         newSetting.save(function(err){
             if (err){
                 console.log(err)
