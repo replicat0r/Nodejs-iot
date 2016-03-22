@@ -25,7 +25,7 @@ var options = {
 tls.createServer(options, function(s) {
     console.log('TLS connection established ')
     s.addListener('data', function(data) {
-        var timerId,composedData
+        var timerId,composedData,key
         incomingData = data
         clearInterval(timerId);
 
@@ -33,8 +33,9 @@ tls.createServer(options, function(s) {
         //var parsedData = JSON.parse(data)
 
 
-        for (var key in data) {
+        for (key in data) {
             if (data.hasOwnProperty(key)) {
+                console.log(`key is ${key} , data is ${data[key]}`)
                 composedData = '{"' + key + '"' + ":" + data[key] + "}";
             }
         }
