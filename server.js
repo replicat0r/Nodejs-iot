@@ -30,17 +30,17 @@ tls.createServer(options, function(s) {
         clearInterval(timerId);
 
         console.log('=== received ok==')
-        //var parsedData = JSON.parse(data)
+        var parsedData = JSON.parse(data)
 
-
-        for (key in data) {
-            if (data.hasOwnProperty(key)) {
-                console.log(`key is ${key} , data is ${data[key]}`)
-                composedData = '{"' + key + '"' + ":" + data[key] + "}";
-            }
-        }
-        console.log("composed Data:" + composedData)
-        var newSetting = new Settings({ brightness: composedData.brightness })
+        console.log(data)
+        // for (key in data) {
+        //     if (data.hasOwnProperty(key)) {
+        //         console.log(`key is ${key} , data is ${data[key]}`)
+        //         composedData = '{"' + key + '"' + ":" + data[key] + "}";
+        //     }
+        // }
+        console.log("composed Data:" + parsedData)
+        var newSetting = new Settings({ brightness: parsedData.brightness })
         console.log(`newsetting data: ${newSetting.brightness}`)
 
         newSetting.save(function(err) {

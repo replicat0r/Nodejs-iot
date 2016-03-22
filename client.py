@@ -58,7 +58,7 @@ while 1:
     if action == "q":
         break
     elif action == "n":
-        msg = "{brightness:%d}" % brightness
+        msg = '{"brightness":%d}' % brightness
         print "Sending:", msg
         wrappedSocket.send(msg)
         
